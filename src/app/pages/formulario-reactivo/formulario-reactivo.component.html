@@ -1,0 +1,70 @@
+<div class="container">
+  <div class="row justify-content-center">
+    <h2>Formulario Reactivo</h2>
+  </div>
+  <br>
+  <form [formGroup]="userForm" (ngSubmit)="registrar()">
+    <div class="row justify-content-center">
+      <div class="col-6 mb-3">
+        <input class="form-control" [ngClass]="{'error-input': (userForm.invalid && userForm.touched) && (userForm.controls['email'].errors?.['email'] || userForm.controls['email'].errors?.['required'])}" required formControlName="email" type="email" name="email" id="email" placeholder="E-mail">
+        <div *ngIf="userForm.invalid && userForm.touched">
+          <span *ngIf="userForm.controls['email'].errors?.['email']">El formato del E-mail no es el correcto</span>
+          <span *ngIf="userForm.controls['email'].errors?.['required']">El E-mail es requerido</span>
+        </div>
+      </div>
+      <div class="col-6 mb-3">
+        <input class="form-control" required formControlName="username" type="text" name="username1" id="username1" placeholder="Nombre de usuario">
+        <div *ngIf="userForm.invalid && userForm.touched">
+          <span *ngIf="userForm.controls['username'].errors?.['minlength']">El nombre de usuario debe tener un minimo 4 caracteres</span>
+          <span *ngIf="userForm.controls['username'].errors?.['required']">El nombre de usuario requerido</span>
+        </div>
+      </div>
+      <div class="col-6 mb-3">
+        <input class="form-control" required formControlName="celular" type="tel" name="celular" id="celular" placeholder="Número Telefónico">
+        <div *ngIf="userForm.invalid && userForm.touched">
+          <span *ngIf="userForm.controls['celular'].errors?.['minlength']">El Número Telefónico debe tener un minimo 6 digitos <br></span>
+          <span *ngIf="userForm.controls['celular'].errors?.['required']">El Número Telefónico es requerido</span>
+          <span *ngIf="userForm.controls['celular'].errors?.['pattern']">Solo digitos</span>
+        </div>
+      </div>
+      <div class="col-6 mb-3">
+        <input class="form-control" required formControlName="pass" type="password" name="pass" id="pass" placeholder="Contraseña">
+        <div *ngIf="userForm.invalid && userForm.touched">
+          <span *ngIf="userForm.controls['pass'].errors?.['required']">La Contraseña es requerida</span>
+          <span *ngIf="userForm.controls['pass'].errors?.['pattern']">
+            La contraseña debe contener:
+            <br>
+             - Un minimo de 8 caracteres
+             <br>
+             - Un maximo de 15 caracteres
+             <br>
+             - Al menos una letra mayúscula
+             <br>
+             - Al menos una letra minucula
+             <br>
+             - Al menos un dígito
+             <br>
+             - Al menos un caracter especial
+          </span>
+        </div>
+      </div>
+      <div class="col-6 mb-3">
+        <input class="form-check-input" required formControlName="terms" type="checkbox" value="" name="terms" id="terms">
+        <label class="form-check-label" for="terms">
+          Aceptar Términos y Condiciones de Uso
+        </label>
+      </div>
+    </div>
+    <div *ngIf="userForm.invalid && userForm.touched" class="row justify-content-center">
+      <span *ngIf="userForm.controls['terms'].errors?.['required']">¡Los Términos y Condiciones de Uso deben ser aceptados!</span>
+    </div>
+    <div class="row justify-content-center">
+      <button class="btn btn-success" [disabled]="userForm.invalid" type="submit">Registrarse</button>
+    </div>
+    <div *ngIf="showData" class="row justify-content-center mt-4">
+      <div class="col-6">
+        <p class="text-center">{{user | json}}</p>
+      </div>
+    </div>
+  </form>
+</div>
